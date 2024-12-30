@@ -83,19 +83,23 @@ fn create_drive(
     fs_type: &str,
     drive_letter: Option<char>,
 ) -> Option<Drive> {
-    if let Ok(metadata) = fs::metadata(&path) {
-        let total_space: u64 = metadata.len();
-        let free_space: u64 = get_available_space(&path);
-        Some(Drive::new(
-            name,
-            path,
-            free_space / 1_073_741_824, // Convert bytes to GB
-            total_space / 1_073_741_824,
-            fs_type.to_string(),
-            os_type.to_string(),
-            false, // Would need system-specific APIs to detect accurately
-            drive_letter,
-        ))
+    let drive = Drive::new(
+        name,
+        path.clone(),
+        0,
+        0,
+        fs_type.to_string(),
+        os_type.to_string(),
+        false, // Would need system-specific APIs to detect accurately
+        drive_letter,
+    );
+
+    if path.exists() {
+        Some(Drive {
+            free_space_gb: drive.get_free_storage(),
+            total_space_gb: drive.get_total_storage(),
+            ..drive
+        })
     } else {
         None
     }

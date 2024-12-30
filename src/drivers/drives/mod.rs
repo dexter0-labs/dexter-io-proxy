@@ -1,4 +1,5 @@
 pub mod list_drives;
+pub mod get_storage;
 
 use serde::{Serialize, Deserialize};
 

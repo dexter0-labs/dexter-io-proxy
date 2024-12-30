@@ -71,3 +71,6 @@
  - **GET /cache/config** - Get cache configuration
  - **PUT /cache/config** - Update cache configuration
 
+
+## Todo;
+- [ ] : make windows crate dep a flagged feature so the linux binary isnt cluttered with it

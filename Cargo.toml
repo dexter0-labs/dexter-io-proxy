@@ -29,3 +29,11 @@ tracing = "0.1.40"
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
 url = "2.5.4"
 uuid = { version = "1.10.0", features = ["v4"] }
+
+# For Windows (optional in later versions)
+windows = { version = "0.58.0", features = [
+    "Win32",
+    "Win32_Storage",
+    "Win32_Storage_FileSystem",
+    "Win32_System"
+] }
