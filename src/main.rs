@@ -19,7 +19,7 @@ use dexter_io_proxy::api::client::api_client;
 #[tokio::main]
 async fn main() {
     init_tracing();
-
+    info!("Starting DEXTER-IO-PROXY API client");
     let api_futur = api_client();
 
     let _ = api_futur.await;

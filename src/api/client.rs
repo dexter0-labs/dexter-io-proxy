@@ -12,6 +12,8 @@ use tracing::{error, info, warn};
 // crate imports
 use crate::api::ApiResponse;
 
+// endpoints
+use crate::api::endpoints::drives::list_drives::{get_drive, list_drives};
 
 #[get("/")]
 /// GET /
@@ -22,14 +24,10 @@ use crate::api::ApiResponse;
 async fn test_root() -> impl Responder {
     info!("\x1b[0;34mRequest @ /test\x1b[0m");
 
-    let response = ApiResponse::success(
-        "API is healthy",
-        vec![json!({"status": "ok"})]
-    );
+    let response = ApiResponse::success("API is healthy", vec![json!({"status": "ok"})]);
 
     HttpResponse::Ok().json(response)
 }
-
 
 /// Main function for the API client
 ///
@@ -49,7 +47,6 @@ async fn test_root() -> impl Responder {
 /// - `Error`
 ///
 pub async fn api_client() -> Result<()> {
-    info!("Starting DEXTER-IO-PROXY API client");
     let port: u16 = var("DEXTER_IO_PROXY_PORT")
         .unwrap_or_else(|_| "8075".to_string())
         .parse()
@@ -64,9 +61,10 @@ pub async fn api_client() -> Result<()> {
             .allow_any_method()
             .allow_any_header();
 
-        println!("Starting DEXTER-IO-PROXY API client on port: {}", port);
-
-        App::new().wrap(cors).service(test_root)
+        App::new().wrap(cors)
+        .service(test_root)
+        .service(list_drives)
+        .service(get_drive)
     })
     .bind(("0.0.0.0", port))?
     .run()

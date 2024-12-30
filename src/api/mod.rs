@@ -1,5 +1,6 @@
 pub mod client;
 pub mod builder;
+pub mod endpoints;
 
 
 use serde::{Deserialize, Serialize};
