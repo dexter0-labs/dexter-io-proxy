@@ -21,6 +21,7 @@ async fn test_root() -> impl Responder {
     HttpResponse::Ok().json(json!({ "message": "API is healthy" }))
 }
 
+
 /// Main function for the API client
 ///
 /// This function is used to start the API client
