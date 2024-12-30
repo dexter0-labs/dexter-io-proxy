@@ -9,16 +9,25 @@ use std::io::ErrorKind;
 use std::io::Result;
 use tracing::{error, info, warn};
 
+// crate imports
+use crate::api::ApiResponse;
+
+
 #[get("/")]
 /// GET /
 /// This endpoint is used to test the API
 ///     
 /// ## Returns
-/// - `HttpResponse`
+/// - `HttpResponse` with ApiResponse payload
 async fn test_root() -> impl Responder {
     info!("\x1b[0;34mRequest @ /test\x1b[0m");
 
-    HttpResponse::Ok().json(json!({ "message": "API is healthy" }))
+    let response = ApiResponse::success(
+        "API is healthy",
+        vec![json!({"status": "ok"})]
+    );
+
+    HttpResponse::Ok().json(response)
 }
 
 
